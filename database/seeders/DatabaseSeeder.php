@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Users\User;
+use App\Models\Users\UserWiFi;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,12 +16,18 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::create([
+        $admin = User::updateOrCreate([
+            'email' => 'admin@test.com'
+        ], [
             'name' => 'user Admin',
             'email' => 'admin@test.com',
             'role' => 'admin',
             'password' => hash('sha256', '12345678'),
-            'status' => 'active'
+        ]);
+
+        UserWiFi::updateOrCreate([
+            'status' => 'active',
+            'user_id' => $admin->id
         ]);
     }
 }
