@@ -1,20 +1,25 @@
 <?php
 
-namespace App\Models\Users;
+namespace App\Models\Transaction;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
-class UserWiFiAccount extends Model
+class TransactionUserPackage extends Model
 {
     use HasUuids, SoftDeletes;
-    protected $table = 'users_wifis_accounts';
+    protected $table = 'transactions_users_packages';
     protected $guarded = [];
 
     public function newUniqueId()
     {
         return Uuid::uuid4();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

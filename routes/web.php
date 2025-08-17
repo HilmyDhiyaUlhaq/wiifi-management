@@ -1,5 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auths\AuthController;
+use App\Http\Controllers\DashboarController;
+use App\Http\Controllers\Packages\PackageController;
+use App\Http\Controllers\Transactions\TransactionUserPackageController;
+use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\Users\UserDetailController;
+use App\Http\Controllers\Users\UserTransactionController;
+use App\Http\Controllers\Users\UserWifiAccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,3 +20,58 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/login', [AuthController::class, 'show'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+// User 
+Route::middleware('auth')->group(function () {
+    Route::get('/', DashboarController::class)->name('dashboard');
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/create', [UserController::class, 'store'])->name('users.store');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
+        Route::patch('/edit/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        Route::prefix('{userId}/wifi-account')->group(function () {
+            Route::get('/', [UserWifiAccountController::class, 'index'])->name('users.wifis.accounts.index');
+            Route::get('/create', [UserWifiAccountController::class, 'create'])->name('users.wifis.accounts.create');
+            Route::post('/create', [UserWifiAccountController::class, 'store'])->name('users.wifis.accounts.store');
+            Route::get('/edit/{id}', [UserWifiAccountController::class, 'edit'])->name('users.wifis.accounts.edit');
+            Route::patch('/edit/{id}', [UserWifiAccountController::class, 'update'])->name('users.wifis.accounts.update');
+            Route::delete('/delete/{id}', [UserWifiAccountController::class, 'destroy'])->name('users.wifis.accounts.destroy');
+        });
+
+        Route::prefix('{userId}/transaction')->group(function () {
+            Route::get('/', [UserTransactionController::class, 'index'])->name('users.transactions.index');
+            Route::get('/create', [UserTransactionController::class, 'create'])->name('users.transactions.create');
+            Route::post('/create', [UserTransactionController::class, 'store'])->name('users.transactions.store');
+            Route::get('/edit/{id}', [UserTransactionController::class, 'edit'])->name('users.transactions.edit');
+            Route::patch('/edit/{id}', [UserTransactionController::class, 'update'])->name('users.transactions.update');
+            Route::delete('/delete/{id}', [UserTransactionController::class, 'destroy'])->name('users.transactions.destroy');
+        });
+    });
+
+    // Package
+    Route::prefix('packages')->group(function () {
+        Route::get('/', [PackageController::class, 'index'])->name('packages.index');
+        Route::get('/create', [PackageController::class, 'create'])->name('packages.create');
+        Route::post('/create', [PackageController::class, 'store'])->name('packages.store');
+        Route::get('/edit/{id}', [PackageController::class, 'edit'])->name('packages.edit');
+        Route::patch('/edit/{id}', [PackageController::class, 'update'])->name('packages.update');
+        Route::delete('/delete/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
+    });
+
+    Route::prefix('/transactions')->group(function () {
+        Route::get('/', [TransactionUserPackageController::class, 'index'])->name('transactions.index');
+        Route::get('/create', [TransactionUserPackageController::class, 'create'])->name('transactions.create');
+        Route::post('/create', [TransactionUserPackageController::class, 'store'])->name('transactions.store');
+        Route::delete('/delete/{id}', [TransactionUserPackageController::class, 'destroy'])->name('transactions.destroy');
+        Route::get('/edit/{id}', [TransactionUserPackageController::class, 'edit'])->name('transactions.edit');
+        Route::patch('/edit/{id}', [TransactionUserPackageController::class, 'update'])->name('transactions.update');
+    });
+});

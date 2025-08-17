@@ -10,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users_wifis_accounts', function (Blueprint $table) {
-            $table->id();
-            $table->string('user_wifis_id')->forign('users_wifis');
-            $table->string('mac')->index();
-            $table->string('ip')->index();
+        Schema::create('packages', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->string('name')->index();
+            $table->string('description')->nullable();
+            $table->bigInteger('price');
+            $table->integer('quota');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_wifis_accounts');
+        Schema::dropIfExists('packages');
     }
 };

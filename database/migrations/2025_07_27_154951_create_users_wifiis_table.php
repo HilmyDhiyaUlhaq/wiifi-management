@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('status')->index();
             $table->integer('count_quota')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_account_wi_fis');
+        Schema::dropIfExists('users_wifis');
     }
 };

@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Models\Users;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
-class UserWiFiAccount extends Model
+class Package extends Model
 {
     use HasUuids, SoftDeletes;
-    protected $table = 'users_wifis_accounts';
+
+    protected $table = 'packages';
     protected $guarded = [];
 
     public function newUniqueId()
