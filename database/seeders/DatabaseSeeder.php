@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Users\User;
 use App\Models\Users\UserWiFi;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'user Admin',
             'email' => 'admin@test.com',
             'role' => 'admin',
-            'password' => hash('sha256', '12345678'),
+            'password' => Hash::make('12345678'),
         ]);
 
         UserWiFi::updateOrCreate([
