@@ -41,8 +41,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [UserWifiAccountController::class, 'index'])->name('users.wifis.accounts.index');
             Route::get('/create', [UserWifiAccountController::class, 'create'])->name('users.wifis.accounts.create');
             Route::post('/create', [UserWifiAccountController::class, 'store'])->name('users.wifis.accounts.store');
-            Route::get('/edit/{id}', [UserWifiAccountController::class, 'edit'])->name('users.wifis.accounts.edit');
-            Route::patch('/edit/{id}', [UserWifiAccountController::class, 'update'])->name('users.wifis.accounts.update');
             Route::delete('/delete/{id}', [UserWifiAccountController::class, 'destroy'])->name('users.wifis.accounts.destroy');
         });
 

@@ -7,13 +7,13 @@ class UserWiFiAccountRepository
 {
     public function getAllUserWiFIAccountByParams($params)
     {
-        return UserWiFiAccount::leftJoin('users_wifis', 'users_wifis.id', '=', 'users_wifis_accounts.user_wifis_id')
-
+        return UserWiFiAccount::leftJoin('users_wifis', 'users_wifis.id', '=', 'users_wifis_accounts.user_wifi_id')
             ->where(function ($query) use ($params) {
                 $query->when(isset($params['userId']), function ($query) use ($params) {
                     $query->where('users_wifis.user_id', $params['userId']);
                 });
-            })->orderBy('created_at', 'desc')
+            })->orderBy('users_wifis_accounts.created_at', 'desc')
+            ->select('users_wifis_accounts.*')
             ->paginate($params['perPage'] ?? 10)
             ->appends([
                 'search' => $params['search'] ?? null,
@@ -35,5 +35,15 @@ class UserWiFiAccountRepository
     public function deleteUserWiFIAccountById($id)
     {
         return UserWiFiAccount::where('id', $id)->forceDelete();
+    }
+
+    public function getUserWiFIAccountById($id)
+    {
+        return UserWiFiAccount::find($id);
+    }
+
+    public function getUserWiFiAccountIps()
+    {
+        return UserWiFiAccount::whereNotNull('id')->pluck('ip')->toArray();
     }
 }

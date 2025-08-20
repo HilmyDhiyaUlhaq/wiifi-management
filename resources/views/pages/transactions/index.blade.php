@@ -114,17 +114,6 @@
                                         Edit
                                     </button>
                                 </form>
-                                <form action="{{ route('transactions.destroy', $transactionUserPackage->id) }}"
-                                    method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="id" value="{{ $transactionUserPackage->id }}">
-                                    <button type="submit"
-                                        class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                                        onclick="return confirm('Are you sure you want to delete this package?')">
-                                        Delete
-                                    </button>
-                                </form>
 
                             </td>
                         </tr>

@@ -70,7 +70,7 @@
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $transactionUserPackage->name }}
+                                {{ $transactionUserPackage->package_name }}
                             </th>
                             <td class="px-6 py-4">
                                 Rp. {{ number_format($transactionUserPackage->price, 0, ',', '.') }}
@@ -110,18 +110,25 @@
                                         Edit
                                     </button>
                                 </form>
-                                <form
-                                    action="{{ route('users.transactions.destroy', ['userId' => $user->id, 'id' => $transactionUserPackage->id]) }}"
-                                    method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="id" value="{{ $transactionUserPackage->id }}">
-                                    <button type="submit"
-                                        class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                                        onclick="return confirm('Are you sure you want to delete this package?')">
+                                @if ($transactionUserPackage->status != 'active')
+                                    <form
+                                        action="{{ route('users.transactions.destroy', ['userId' => $user->id, 'id' => $transactionUserPackage->id]) }}"
+                                        method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="id" value="{{ $transactionUserPackage->id }}">
+                                        <button type="submit"
+                                            class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                            onclick="return confirm('Are you sure you want to delete this package?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                @else
+                                    <button class="font-medium text-gray-600 dark:text-gray-500 hover:underline"
+                                        onclick="return alert('Cannot delete active package')">
                                         Delete
                                     </button>
-                                </form>
+                                @endif
                             </td>
                         </tr>
                         @empty

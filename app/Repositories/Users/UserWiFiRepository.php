@@ -22,6 +22,6 @@ class UserWiFiRepository
 
     public function getUserWiFiByUserId($userId)
     {
-        return UserWiFi::where('user_id', $userId)->first();
+        return UserWiFi::with(['userWifiAccounts'])->here('user_id', $userId)->first();
     }
 }

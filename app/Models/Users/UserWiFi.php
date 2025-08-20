@@ -18,4 +18,9 @@ class UserWiFi extends Model
         return Uuid::uuid4();
     }
 
+    public function userWifiAccounts()
+    {
+        return $this->hasMany(UserWiFiAccount::class, 'user_wifi_id', 'id');
+    }
+
 }

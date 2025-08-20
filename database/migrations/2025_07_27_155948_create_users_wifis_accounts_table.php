@@ -11,10 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('users_wifis_accounts', function (Blueprint $table) {
-            $table->id();
-            $table->string('user_wifis_id')->forign('users_wifis');
-            $table->string('mac')->index();
-            $table->string('ip')->index();
+            $table->string('id')->primary();
+            $table->string('user_wifi_id')->forign('users_wifis');
+            $table->string('mac')->unique();
+            $table->string('name')->index()->nullable();
+            $table->string('ip')->unique()->nullable();
+            $table->string('leases_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
