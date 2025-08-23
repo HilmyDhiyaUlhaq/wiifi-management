@@ -26,7 +26,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// User 
+// User
 Route::middleware('auth')->group(function () {
     Route::get('/', DashboarController::class)->name('dashboard');
     Route::prefix('users')->group(function () {
@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
         Route::patch('/edit/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/exports', [UserController::class, 'export'])->name('users.export');
 
         Route::prefix('{userId}/wifi-account')->group(function () {
             Route::get('/', [UserWifiAccountController::class, 'index'])->name('users.wifis.accounts.index');
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [PackageController::class, 'edit'])->name('packages.edit');
         Route::patch('/edit/{id}', [PackageController::class, 'update'])->name('packages.update');
         Route::delete('/delete/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
+        Route::get('/export', [PackageController::class, 'export'])->name('packages.export');
     });
 
     Route::prefix('/transactions')->group(function () {
@@ -71,5 +73,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/{id}', [TransactionUserPackageController::class, 'destroy'])->name('transactions.destroy');
         Route::get('/edit/{id}', [TransactionUserPackageController::class, 'edit'])->name('transactions.edit');
         Route::patch('/edit/{id}', [TransactionUserPackageController::class, 'update'])->name('transactions.update');
+        Route::get('/export', [TransactionUserPackageController::class, 'export'])->name('transactions.export');
     });
 });

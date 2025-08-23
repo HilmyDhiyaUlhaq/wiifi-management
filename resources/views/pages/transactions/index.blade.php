@@ -45,10 +45,11 @@
                     class="rounded-lg border border-gray-300 text-sm p-2 w-full max-w-xs ml-auto">
 
                 <!-- Tombol Export -->
-                <button type="submit" name="action" value="export"
+                <a type="submit" name="action" value="export"
+                    href="{{ route('transactions.export', ['startDate' => $data['startDate'], 'endDate' => $data['endDate']]) }}"
                     class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
                     Export
-                </button>
+                </a>
 
                 <!-- Tambah User -->
                 <a href="{{ route('transactions.create') }}"

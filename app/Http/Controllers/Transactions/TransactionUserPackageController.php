@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transactions;
 
+use App\Exports\TransactionUserPackageExport;
 use App\Http\Controllers\Controller;
 use App\Repositories\Packges\PackageRepository;
 use App\Repositories\Transactions\TransactionUserPackageRepository;
@@ -10,6 +11,7 @@ use App\Services\ApplyQuotas\ApplyQuotaService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionUserPackageController extends Controller
 {
@@ -132,6 +134,24 @@ class TransactionUserPackageController extends Controller
         $this->transactionUserPackageRepository->deleteTransactionUserPackageById($id);
 
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+    }
+
+    public function export(Request $request)
+    {
+        $data = $request->validate([
+            'startDate' => 'date|nullable',
+            'endDate' => 'date|nullable',
+        ]);
+
+        if (!isset($data['startDate'])) {
+            $data['startDate'] = Carbon::now()->startOfMonth()->format('Y-m-d');
+        }
+
+        if (!isset($data['endDate'])) {
+            $data['endDate'] = Carbon::now()->endOfMonth()->format('Y-m-d');
+        }
+
+        return Excel::download(new TransactionUserPackageExport($data), 'user.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
 }

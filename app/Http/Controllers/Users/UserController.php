@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Repositories\Users\UserRepository;
 use App\Repositories\Users\UserWiFiRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -112,5 +114,11 @@ class UserController extends Controller
 
         $this->userRepository->deleteUserById($id);
         return redirect()->route('users.index');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UserExport, 'user.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+
     }
 }

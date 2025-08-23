@@ -18,10 +18,10 @@
                         class="rounded-lg border border-gray-300 text-sm p-2 w-full max-w-xs ml-auto">
 
                     <!-- Tombol Export -->
-                    <button type="submit" name="action" value="export"
+                    <a type="submit" href="{{ route('users.export') }}"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
                         Export
-                    </button>
+                    </a>
 
                     <!-- Tambah User -->
                     <a href="{{ route('users.create') }}"
@@ -46,7 +46,8 @@
                         @forelse ($users as $user)
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $user->name }}
                                 </th>
                                 <td class="px-6 py-4">
@@ -73,7 +74,8 @@
                                         @csrf
                                         @method('DELETE')
                                         <input type="hidden" name="id" value="{{ $user->id }}">
-                                        <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                        <button type="submit"
+                                            class="font-medium text-red-600 dark:text-red-500 hover:underline"
                                             onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                                     </form>
                                 </td>
@@ -95,19 +97,19 @@
     </div>
 @endsection
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('filterForm');
         const searchInput = form.querySelector('input[name="search"]');
         const perPageSelect = form.querySelector('select[name="perPage"]');
         let typingTimer;
 
         // Auto-submit saat ganti jumlah per halaman
-        perPageSelect.addEventListener('change', function () {
+        perPageSelect.addEventListener('change', function() {
             form.submit();
         });
 
         // Auto-submit search setelah berhenti mengetik
-        searchInput.addEventListener('keyup', function () {
+        searchInput.addEventListener('keyup', function() {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(() => form.submit(), 500);
         });

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Packages;
 
+use App\Exports\PackageExport;
+use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Repositories\Packges\PackageRepository;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PackageController extends Controller
 {
@@ -81,5 +84,11 @@ class PackageController extends Controller
         $this->packageRepository->deletePackageById($id);
 
         return redirect()->route('packages.index');
+    }
+
+    public function export()
+    {
+        return Excel::download(new PackageExport, 'user.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+
     }
 }
