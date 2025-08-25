@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Packages;
+namespace App\Http\Controllers\Class;
 
-use App\Exports\PackageExport;
-use App\Exports\UserExport;
+use App\Exports\ClassExport;
 use App\Http\Controllers\Controller;
 use App\Repositories\Packges\PackageRepository;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class PackageController extends Controller
+class ClassController extends Controller
 {
     public function __construct(
         private PackageRepository $packageRepository,
@@ -25,17 +24,17 @@ class PackageController extends Controller
             'perPage' => 'integer|nullable'
         ]);
         $data['perPage'] = $data['perPage'] ?? 10;
-        $data['type'] = 'package';
+        $data['type'] = 'class';
 
-        return view('pages.packages.index', [
-            'packages' => $this->packageRepository->getAllPackagesByParams($data),
+        return view('pages.class.index', [
+            'classes' => $this->packageRepository->getAllPackagesByParams($data),
             'data' => $data
         ]);
     }
 
     public function create()
     {
-        return view('pages.packages.create');
+        return view('pages.class.create');
     }
 
     public function store(Request $request)
@@ -43,20 +42,20 @@ class PackageController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
-            'quota' => 'required|integer|min:1',
             'description' => 'nullable|string|max:1000',
         ]);
+        $data['quota'] = 0;
+        $data['type'] = 'class';
 
-        $data['type'] = 'package';
         $this->packageRepository->createPackage($data);
 
-        return redirect()->route('packages.index');
+        return redirect()->route('class.index');
     }
 
     public function edit($id)
     {
-        return view('pages.packages.edit', [
-            'package' => $this->packageRepository->getPackageById($id)
+        return view('pages.class.edit', [
+            'class' => $this->packageRepository->getPackageById($id)
         ]);
     }
 
@@ -67,14 +66,12 @@ class PackageController extends Controller
             'id' => 'required|exists:packages,id,deleted_at,NULL',
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
-            'quota' => 'required|integer|min:1',
             'description' => 'nullable|string|max:1000',
         ]);
 
-        $data['type'] = 'package';
         $this->packageRepository->updatePackageById($id, $data);
 
-        return redirect()->route('packages.index');
+        return redirect()->route('class.index');
     }
 
     public function destroy(Request $request, $id)
@@ -91,7 +88,7 @@ class PackageController extends Controller
 
     public function export()
     {
-        return Excel::download(new PackageExport, 'package.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new ClassExport, 'class.xlsx', \Maatwebsite\Excel\Excel::XLSX);
 
     }
 }

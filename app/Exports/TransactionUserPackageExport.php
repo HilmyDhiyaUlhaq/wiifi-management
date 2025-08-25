@@ -12,7 +12,7 @@ class TransactionUserPackageExport implements FromCollection, WithHeadings, With
     private $request;
     public function __construct($request)
     {
-        //
+        $this->request = $request;
     }
     public function headings(): array
     {
@@ -20,8 +20,9 @@ class TransactionUserPackageExport implements FromCollection, WithHeadings, With
             'User Name',
             'Package Name',
             'price',
-            'description',
-            'quota'
+            'activation At',
+            'activated By',
+            'description'
         ];
     }
 
@@ -31,6 +32,9 @@ class TransactionUserPackageExport implements FromCollection, WithHeadings, With
         return TransactionUserPackage::where(function ($query) use ($params) {
             $query->when(isset($params['userId']), function ($query) use ($params) {
                 $query->where('user_id', $params['userId']);
+            });
+            $query->when(isset($params['type']), function ($query) use ($params) {
+                $query->where('type', $params['type']);
             });
         })->orderBy('created_at', 'desc')
             ->where(function ($query) use ($params) {
@@ -47,8 +51,9 @@ class TransactionUserPackageExport implements FromCollection, WithHeadings, With
             $item->user_name,
             $item->package_name,
             $item->price,
-            $item->description,
-            $item->quota
+            $item->activation_at,
+            $item->created_by,
+            $item->description
         ];
     }
 }

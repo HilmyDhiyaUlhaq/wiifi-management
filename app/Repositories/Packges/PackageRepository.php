@@ -12,6 +12,7 @@ class PackageRepository
                 $query->whereRaw('lower(name) like lower(?)', ["%{$params['search']}%"]);
             });
         })->orderBy('name', 'asc')
+            ->where('type', $params['type'])
             ->paginate($params['perPage'] ?? 10)
             ->appends([
                 'search' => $params['search'] ?? null,

@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class PackageExport implements FromCollection, WithHeadings, WithMapping
+class ClassExport implements FromCollection, WithHeadings, WithMapping
 {
     public function headings(): array
     {
@@ -14,7 +14,6 @@ class PackageExport implements FromCollection, WithHeadings, WithMapping
             'name',
             'price',
             'description',
-            'quota',
         ];
     }
 
@@ -29,7 +28,6 @@ class PackageExport implements FromCollection, WithHeadings, WithMapping
             $item->name,
             $item->price,
             $item->description,
-            $item->quota,
         ];
     }
 }

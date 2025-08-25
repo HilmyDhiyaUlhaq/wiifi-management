@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auths\AuthController;
+use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\DashboarController;
 use App\Http\Controllers\Packages\PackageController;
+use App\Http\Controllers\Transactions\TransactionUserClassController;
 use App\Http\Controllers\Transactions\TransactionUserPackageController;
 use App\Http\Controllers\Users\UserController;
-use App\Http\Controllers\Users\UserDetailController;
 use App\Http\Controllers\Users\UserTransactionController;
 use App\Http\Controllers\Users\UserWifiAccountController;
 use Illuminate\Support\Facades\Route;
@@ -74,5 +75,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [TransactionUserPackageController::class, 'edit'])->name('transactions.edit');
         Route::patch('/edit/{id}', [TransactionUserPackageController::class, 'update'])->name('transactions.update');
         Route::get('/export', [TransactionUserPackageController::class, 'export'])->name('transactions.export');
+    });
+    Route::prefix('/transactions-class')->group(function () {
+        Route::get('/', [TransactionUserClassController::class, 'index'])->name('transactions-class.index');
+        Route::get('/create', [TransactionUserClassController::class, 'create'])->name('transactions-class.create');
+        Route::post('/create', [TransactionUserClassController::class, 'store'])->name('transactions-class.store');
+        Route::delete('/delete/{id}', [TransactionUserClassController::class, 'destroy'])->name('transactions-class.destroy');
+        Route::get('/export', [TransactionUserClassController::class, 'export'])->name('transactions-class.export');
+    });
+
+    Route::prefix('class')->group(function () {
+        Route::get('/', [ClassController::class, 'index'])->name('class.index');
+        Route::get('/create', [ClassController::class, 'create'])->name('class.create');
+        Route::post('/create', [ClassController::class, 'store'])->name('class.store');
+        Route::get('/edit/{id}', [ClassController::class, 'edit'])->name('class.edit');
+        Route::patch('/edit/{id}', [ClassController::class, 'update'])->name('class.update');
+        Route::delete('/delete/{id}', [ClassController::class, 'destroy'])->name('class.destroy');
+        Route::get('/export', [ClassController::class, 'export'])->name('class.export');
     });
 });

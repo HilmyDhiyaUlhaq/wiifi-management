@@ -18,6 +18,15 @@ class TransactionUserPackageRepository
                 $query->when(isset($params['startDate']) && isset($params['endDate']), function ($query) use ($params) {
                     $query->whereBetween('created_at', [$params['startDate'], $params['endDate']]);
                 });
+                $query->when(isset($params['type']), function ($query) use ($params) {
+                    $query->where('type', $params['type']);
+                });
+                $query->when(isset($params['search']), function ($query) use ($params) {
+                    $query->where(function ($query) use ($params) {
+                        $query->whereRaw('lower(user_name) like lower(?)', ["%{$params['search']}%"]);
+                        $query->orWhereRaw('lower(package_name) like lower(?)', ["%{$params['search']}%"]);
+                    });
+                });
             })
             ->paginate($params['perPage'] ?? 10)
             ->appends([
@@ -33,7 +42,11 @@ class TransactionUserPackageRepository
                     $query->where('user_id', $params['userId']);
                 });
             })->orderBy('created_at', 'desc')
+
             ->where(function ($query) use ($params) {
+                $query->when(isset($params['type']), function ($query) use ($params) {
+                    $query->where('type', $params['type']);
+                });
                 $query->when(isset($params['startDate']) && isset($params['endDate']), function ($query) use ($params) {
                     $query->whereBetween('created_at', [$params['startDate'], $params['endDate']]);
                 });

@@ -8,6 +8,7 @@ use App\Repositories\Transactions\TransactionUserPackageRepository;
 use App\Repositories\Users\UserRepository;
 use App\Repositories\Users\UserWiFiRepository;
 use App\Services\ApplyQuotas\ApplyQuotaService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,9 +31,10 @@ class UserTransactionController extends Controller
             'userId' => 'required|exists:users,id,deleted_at,NULL',
             'search' => 'string|nullable',
             'page' => 'integer|nullable',
-            'perPage' => 'integer|nullable'
+            'perPage' => 'integer|nullable',
         ]);
         $data['perPage'] = $data['perPage'] ?? 10;
+        $data['type'] = 'package';
 
         return view('pages.users.transactions.index', [
             'transactionUserPackages' => $this->transactionUserPackageRepository->getAllTransactionUserPackageByParams($data),
@@ -50,7 +52,7 @@ class UserTransactionController extends Controller
 
         return view('pages.users.transactions.create', [
             'user' => $this->userRepository->getUserById($data['userId']),
-            'packages' => $this->packageRepository->getAllPackages(),
+            'packages' => $this->packageRepository->getAllPackages()->where('type', 'package'),
         ]);
     }
 
@@ -73,8 +75,13 @@ class UserTransactionController extends Controller
             'description' => $package->description,
             'price' => $package->price,
             'quota' => $package->quota,
+            'type' => $package->type,
+            'created_by' => Auth::user()?->name,
             'status' => $status
         ];
+        if ($status == 'active') {
+            $transactionData['activation_at'] = Carbon::now();
+        }
         $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
         if ($status == 'active') {
             $this->applyQuotaService->applyPromo($transactionData->id, true);
@@ -94,7 +101,7 @@ class UserTransactionController extends Controller
         return view('pages.users.transactions.edit', [
             'user' => $this->userRepository->getUserById($data['userId']),
             'transactionUserPackage' => $this->transactionUserPackageRepository->getTransactionUserPackageById($id),
-            'packages' => $this->packageRepository->getAllPackages(),
+            'packages' => $this->packageRepository->getAllPackages()->where('type', 'package'),
         ]);
     }
 
@@ -126,7 +133,9 @@ class UserTransactionController extends Controller
             'quota' => $package->quota,
             'status' => $data['status']
         ];
-
+        if ($data['status'] == 'active') {
+            $transactionData['activation_at'] = Carbon::now();
+        }
         $this->transactionUserPackageRepository->updateTransactionUserPackageById($id, $transactionData);
         if ($transactionData['status'] == 'active') {
             $this->applyQuotaService->applyPromo($id);

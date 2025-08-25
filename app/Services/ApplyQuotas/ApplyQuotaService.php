@@ -24,6 +24,7 @@ class ApplyQuotaService
         if (!$status) {
             $status = $transactionUserPackage->status == 'request';
         }
+
         if ($userWifi && $transactionUserPackage && $status) {
             $quota = $userWifi->count_quota;
             $quota = $quota + $transactionUserPackage->quota;

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
-class TransactionUserPackageController extends Controller
+class TransactionUserClassController extends Controller
 {
     public function __construct(
         private PackageRepository $packageRepository,
@@ -42,9 +42,9 @@ class TransactionUserPackageController extends Controller
         if (!isset($data['endDate'])) {
             $data['endDate'] = Carbon::now()->endOfMonth()->format('Y-m-d');
         }
+        $data['type'] = 'class';
 
-        $data['type'] = 'package';
-        return view('pages.transactions.index', [
+        return view('pages.transactions-class.index', [
             'transactionUserPackages' => $this->transactionUserPackageRepository->getAllTransactionUserPackageByParams($data),
             'data' => $data,
             'total' => (float) $this->transactionUserPackageRepository->getCountTransactionUserPackageByParams($data)
@@ -53,9 +53,9 @@ class TransactionUserPackageController extends Controller
 
     public function create(Request $request)
     {
-        return view('pages.transactions.create', [
+        return view('pages.transactions-class.create', [
             'users' => $this->userRepository->getAllUsers(),
-            'packages' => $this->packageRepository->getAllPackages()->where('type', 'package'),
+            'packages' => $this->packageRepository->getAllPackages()->where('type', 'class'),
         ]);
     }
 
@@ -74,62 +74,16 @@ class TransactionUserPackageController extends Controller
             'user_name' => $user->name,
             'description' => $package->description,
             'price' => $package->price,
-            'quota' => $package->quota,
             'status' => 'active',
             'type' => $package->type,
             'activation_at' => Carbon::now(),
             'created_by' => Auth::user()?->name
         ];
+        $data['type'] = 'class';
+
         $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
 
-        $this->applyQuotaService->applyPromo($transactionData->id, true);
-        return redirect()->route('transactions.index')->with('success', 'Transaction added successfully.');
-    }
-
-    public function edit(Request $request, $id)
-    {
-        $request['id'] = $id;
-        $request->validate([
-            'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL'
-        ]);
-
-        return view('pages.transactions.edit', [
-            'transactionUserPackage' => $this->transactionUserPackageRepository->getTransactionUserPackageById($id),
-            'packages' => $this->packageRepository->getAllPackages()->where('type', 'package'),
-        ]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request['id'] = $id;
-        $data = $request->validate([
-            'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL,status,request',
-            'packageId' => 'required|exists:packages,id,deleted_at,NULL',
-            'userId' => 'required|exists:users,id,deleted_at,NULL',
-            'status' => 'required|string'
-        ]);
-        $package = $this->packageRepository->getPackageById($data['packageId']);
-        $user = $this->userRepository->getUserById($data['userId']);
-
-        $transactionData = [
-            'user_id' => $data['userId'],
-            'user_name' => $user->name,
-            'package_id' => $package->id,
-            'package_name' => $package->name,
-            'description' => $package->description,
-            'price' => $package->price,
-            'quota' => $package->quota,
-            'status' => $data['status'],
-            'type' => $package->type,
-            'activation_at' => Carbon::now(),
-            'created_by' => Auth::user()?->name
-        ];
-        $this->transactionUserPackageRepository->updateTransactionUserPackageById($id, $transactionData);
-
-        if ($data['status'] == 'active') {
-            $this->applyQuotaService->applyPromo($id);
-        }
-        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        return redirect()->route('transactions-class.index')->with('success', 'Transaction added successfully.');
     }
 
     public function destroy(Request $request, $id)
@@ -140,7 +94,7 @@ class TransactionUserPackageController extends Controller
 
         $this->transactionUserPackageRepository->deleteTransactionUserPackageById($id);
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        return redirect()->route('transactions-class.index')->with('success', 'Transaction deleted successfully.');
     }
 
     public function export(Request $request)
@@ -158,7 +112,7 @@ class TransactionUserPackageController extends Controller
             $data['endDate'] = Carbon::now()->endOfMonth()->format('Y-m-d');
         }
 
-        $data['type'] = 'package';
+        $data['type'] = 'class';
         return Excel::download(new TransactionUserPackageExport($data), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
