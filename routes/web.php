@@ -7,6 +7,7 @@ use App\Http\Controllers\Packages\PackageController;
 use App\Http\Controllers\Transactions\TransactionUserClassController;
 use App\Http\Controllers\Transactions\TransactionUserPackageController;
 use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\Users\UserSettingController;
 use App\Http\Controllers\Users\UserTransactionController;
 use App\Http\Controllers\Users\UserWifiAccountController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,8 @@ Route::middleware('auth')->group(function () {
         Route::patch('/edit/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::get('/exports', [UserController::class, 'export'])->name('users.export');
+        Route::get('/setting', [UserSettingController::class, 'edit'])->name('users.setting.edit');
+        Route::patch('/setting', [UserSettingController::class, 'update'])->name('users.setting.update');
 
         Route::prefix('{userId}/wifi-account')->group(function () {
             Route::get('/', [UserWifiAccountController::class, 'index'])->name('users.wifis.accounts.index');
