@@ -13,7 +13,7 @@
                             <path
                                 d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Pengguna</span>
                     </a>
                 </li>
                 <li>
@@ -25,7 +25,7 @@
                             <path
                                 d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Packages</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Paket</span>
                     </a>
                 </li>
                 <li>
@@ -40,7 +40,7 @@
                                 d="M495.92 190.5v-.11a16 16 0 0 0-8-12.28l-224-128a16 16 0 0 0-15.88 0l-224 128a16 16 0 0 0 0 27.78l224 128a16 16 0 0 0 15.88 0L461 221.28a2 2 0 0 1 3 1.74v144.53c0 8.61 6.62 16 15.23 16.43A16 16 0 0 0 496 368V192a15 15 0 0 0-.08-1.5" />
                         </svg>
 
-                        <span class="flex-1 ms-3 whitespace-nowrap">Class</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Kelas</span>
                     </a>
                 </li>
                 <li>
@@ -54,7 +54,7 @@
                             <path
                                 d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                         </svg>
-                        <span class="ms-3">Transactions</span>
+                        <span class="ms-3">Transaksi</span>
                     </a>
                 </li>
                 <li>
@@ -66,7 +66,7 @@
                                 d="M12.402 8.976H7.259a2.278 2.278 0 0 0-.193-4.547h-1.68A3.095 3.095 0 0 0 4.609 0h7.793a1.35 1.35 0 0 1 1.348 1.35v6.279c0 .744-.604 1.348-1.348 1.348ZM2.898 4.431a1.848 1.848 0 1 0 0-3.695a1.848 1.848 0 0 0 0 3.695m5.195 2.276c0-.568-.46-1.028-1.027-1.028H2.899a2.65 2.65 0 0 0-2.65 2.65v1.205c0 .532.432.963.964.963h.172l.282 2.61A1 1 0 0 0 2.66 14h.502a1 1 0 0 0 .99-.862l.753-5.404h2.16c.567 0 1.027-.46 1.027-1.027Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="ms-3">Class Transactions</span>
+                        <span class="ms-3">Transaksi Kelas</span>
                     </a>
                 </li>
             @else
@@ -79,7 +79,7 @@
                             <path
                                 d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">My Account Users</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Akun Saya</span>
                     </a>
                 </li>
             @endif

@@ -6,14 +6,14 @@
     <div class="p-6 space-y-6">
         <div>
             <a href="{{ route('users.transactions.index', ['userId' => $user->id]) }}"
-                class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">Transaction</a>
+                class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">Transaksi</a>
             <a href="{{ route('users.wifis.accounts.index', ['userId' => $user->id]) }}"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">Wifi accounts</a>
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">Akun Wifi</a>
         </div>
         {{-- Summary Card --}}
         <div class="bg-white shadow rounded-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 text-sm text-gray-700">
-                <div><span class="font-semibold">Name :</span> {{ $user->name }}</div>
+                <div><span class="font-semibold">Nama :</span> {{ $user->name }}</div>
                 <div><span class="font-semibold">Email :</span> {{ $user->email }}</div>
                 <div>
                     <span class="font-semibold">Status :</span>
@@ -22,8 +22,8 @@
                         {{ ucfirst($user->userWifi?->status) }}
                     </span>
                 </div>
-                <div><span class="font-semibold">Quota :</span> {{ $user->userWifi?->count_quota }} Hari</div>
-                <div><span class="font-semibold">Role :</span> {{ ucfirst($user->role ?? '-') }}</div>
+                <div><span class="font-semibold">Kuota :</span> {{ $user->userWifi?->count_quota }} Hari</div>
+                <div><span class="font-semibold">Peran :</span> {{ ucfirst($user->role ?? '-') }}</div>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
 
                 <!-- Tambah User -->
                 <a href="{{ route('users.wifis.accounts.create', ['userId' => $user->id]) }}"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Add New Account</a>
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Akun Baru</a>
             </form>
         </div>
         {{-- Table Card --}}
@@ -56,10 +56,10 @@
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr class="bg-blue-100">
-                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Nama</th>
                         <th scope="col" class="px-6 py-3">IP</th>
                         <th scope="col" class="px-6 py-3">Mac</th>
-                        <th scope="col" class="px-6 py-3 text-right">Action</th>
+                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,14 +88,14 @@
                                     <button type="submit"
                                         class="font-medium text-red-600 dark:text-red-500 hover:underline"
                                         onclick="return confirm('Are you sure you want to delete this package?')">
-                                        Delete
+                                        Hapus
                                     </button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">No packages found</td>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada paket yang ditemukan</td>
                         </tr>
                     @endforelse
                 </tbody>

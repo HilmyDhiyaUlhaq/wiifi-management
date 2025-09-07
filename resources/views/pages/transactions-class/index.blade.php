@@ -53,7 +53,7 @@
 
                 <!-- Tambah User -->
                 <a href="{{ route('transactions-class.create') }}"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Add New Transaction</a>
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Transaksi Baru</a>
             </form>
         </div>
         {{-- Table Card --}}
@@ -62,8 +62,8 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr class="bg-blue-100">
                         <th scope="col" class="px-6 py-3">User</th>
-                        <th scope="col" class="px-6 py-3">Class Name</th>
-                        <th scope="col" class="px-6 py-3">Price</th>
+                        <th scope="col" class="px-6 py-3">Nama Kelas</th>
+                        <th scope="col" class="px-6 py-3">Harga</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,7 +84,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">No class found</td>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada kelas yang ditemukan</td>
                         </tr>
                     @endforelse
                 </tbody>

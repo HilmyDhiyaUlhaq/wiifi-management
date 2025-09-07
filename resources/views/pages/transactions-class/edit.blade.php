@@ -7,7 +7,7 @@
     @endphp
     <div class="p-6 space-y-6">
         <h2 class="text-xl font-bold mb-4">
-            Edit Transaction Package For User {{ $transactionUserPackage?->user?->name }}
+            Edit Paket Transaksi Untuk User{{ $transactionUserPackage?->user?->name }}
         </h2>
 
         <form action="{{ route('transactions.update', ['id' => $transactionUserPackage->id]) }}" method="POST"
@@ -31,9 +31,9 @@
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                 <select id="status" name="status" required
                     class="bg-gray-50 border @error('status') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">-- Select Status --</option>
+                    <option value="">-- Pilih Status --</option>
                     <option value="active"
-                        {{ old('status', $transactionUserPackage->status) == 'active' ? 'selected' : '' }}>Active</option>
+                        {{ old('status', $transactionUserPackage->status) == 'active' ? 'selected' : '' }}>Aktif</option>
                     <option value="request"
                         {{ old('status', $transactionUserPackage->status) == 'request' ? 'selected' : '' }}>request
                     </option>
@@ -73,7 +73,7 @@
             <div class="mt-6 text-right">
                 <button type="submit" id="submitButton"
                     class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
-                    Confirm Selection
+                    Konfirmasi Pilihan
                 </button>
             </div>
         </form>

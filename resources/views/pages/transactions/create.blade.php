@@ -2,7 +2,7 @@
 
 @section('dashboard')
     <div class="p-6 space-y-6">
-        <h2 class="text-xl font-bold mb-4">New Transaction Package</h2>
+        <h2 class="text-xl font-bold mb-4">Paket Transaksi Baru</h2>
 
         <form action="{{ route('transactions.store') }}" method="POST" id="transactionForm">
             @csrf
@@ -10,9 +10,9 @@
 
             {{-- Select User --}}
             <div class="mb-4">
-                <label for="userId" class="block mb-2 font-medium">Select User</label>
+                <label for="userId" class="block mb-2 font-medium">Pilih Pengguna</label>
                 <select name="userId" id="userId" placeholder="Search user..." autocomplete="off">
-                    <option value="">Select a user...</option>
+                    <option value="">Pilih Pengguna ...</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
                     @endforeach
@@ -21,7 +21,7 @@
 
             {{-- Search packages --}}
             <div class="mb-2">
-                <label for="packageSearch" class="block mb-1 font-medium">Search Packages</label>
+                <label for="packageSearch" class="block mb-1 font-medium">Cari Paket</label>
                 <input id="packageSearch" type="text" placeholder="Cari nama, deskripsi, harga, atau hari…"
                     class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
             </div>
@@ -43,7 +43,7 @@
             <!-- Submit -->
             <div class="mt-6 text-right">
                 <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                    Confirm Selection
+                    Konfirmasi Pilihan
                 </button>
             </div>
         </form>

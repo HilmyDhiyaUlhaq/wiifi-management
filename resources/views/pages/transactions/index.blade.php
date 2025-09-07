@@ -6,7 +6,7 @@
 @section('dashboard')
     <div class="p-6 space-y-6">
         <p class="text-sm text-gray-600 mb-2">
-            Reprot Transaction:
+            Laporan Transaksi:
             @if (!empty($data['startDate']) || !empty($data['endDate']))
                 {{ Carbon::parse($data['startDate'])->isoFormat('DD MMM YYYY') }}
                 s/d
@@ -53,7 +53,7 @@
 
                 <!-- Tambah User -->
                 <a href="{{ route('transactions.create') }}"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Add New Transaction</a>
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Transaksi Baru</a>
             </form>
         </div>
         {{-- Table Card --}}
@@ -62,10 +62,10 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr class="bg-blue-100">
                         <th scope="col" class="px-6 py-3">User</th>
-                        <th scope="col" class="px-6 py-3">Package Name</th>
-                        <th scope="col" class="px-6 py-3">Price</th>
-                        <th scope="col" class="px-6 py-3">status</th>
-                        <th scope="col" class="px-6 py-3 text-right">Action</th>
+                        <th scope="col" class="px-6 py-3">Nama Paket</th>
+                        <th scope="col" class="px-6 py-3">Harga</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
+                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,7 +120,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">No packages found</td>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak Ada Paket yang Ditemukan</td>
                             </tr>
                         @endforelse
                     </tbody>

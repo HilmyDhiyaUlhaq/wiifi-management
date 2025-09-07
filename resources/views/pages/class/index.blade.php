@@ -3,7 +3,7 @@
 @section('dashboard')
     <div class="p-6">
         <div class="bg-white shadow rounded-lg p-6">
-            <h1 class="text-2xl font-bold mb-4">Class</h1>
+            <h1 class="text-2xl font-bold mb-4">Kelas</h1>
 
             <div class="flex justify-between items-center mb-4">
                 <form id="filterForm" method="GET" action="{{ route('class.index') }}" class="flex gap-2 w-full">
@@ -21,12 +21,12 @@
                     <!-- Tombol Export -->
                     <a type="submit" name="action" value="export" href="{{ route('class.export') }}"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
-                        Export
+                        Ekspor
                     </a>
 
                     <!-- Tambah class -->
                     <a href="{{ route('class.create') }}"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Add New Class</a>
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Kelas Baru</a>
                 </form>
             </div>
 
@@ -35,10 +35,10 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="bg-blue-100">
-                            <th scope="col" class="px-6 py-3">Name</th>
-                            <th scope="col" class="px-6 py-3">Price</th>
-                            <th scope="col" class="px-6 py-3">Description</th>
-                            <th scope="col" class="px-6 py-3 text-right">Action</th>
+                            <th scope="col" class="px-6 py-3">Nama</th>
+                            <th scope="col" class="px-6 py-3">Harga</th>
+                            <th scope="col" class="px-6 py-3">Deskripsi</th>
+                            <th scope="col" class="px-6 py-3 text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,13 +64,13 @@
                                         <input type="hidden" name="id" value="{{ $class->id }}">
                                         <button type="submit"
                                             class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                                            onclick="return confirm('Are you sure you want to delete this class?')">Delete</button>
+                                            onclick="return confirm('Are you sure you want to delete this class?')">Hapus</button>
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">No class found</td>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada kelas yang ditemukan!</td>
                             </tr>
                         @endforelse
                     </tbody>

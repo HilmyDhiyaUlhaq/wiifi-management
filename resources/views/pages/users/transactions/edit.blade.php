@@ -7,7 +7,7 @@
     @endphp
     <div class="p-6 space-y-6">
         <h2 class="text-xl font-bold mb-4">
-            Edit Transaction Package For User {{ $user->name }}
+            Edit Paket Transaksi untuk User {{ $user->name }}
         </h2>
 
         <form action="{{ route('users.transactions.update', ['userId' => $user->id, 'id' => $transactionUserPackage->id]) }}"
@@ -20,7 +20,7 @@
 
             {{-- Search packages --}}
             <div class="mb-2">
-                <label for="packageSearch" class="block mb-1 font-medium">Search Packages</label>
+                <label for="packageSearch" class="block mb-1 font-medium">Cari Paket</label>
                 <input id="packageSearch" type="text" placeholder="Cari nama, deskripsi, harga, atau hari…"
                     class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
             </div>
@@ -35,11 +35,11 @@
             <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
             <select id="status" name="status" required
                 class="bg-gray-50 border @error('status') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="">-- Select Status --</option>
+                <option value="">-- Pilih Staus --</option>
                 <option value="active" {{ old('status', $transactionUserPackage->status) == 'active' ? 'selected' : '' }}>
-                    Active</option>
+                    Aktif</option>
                 <option value="inactive"
-                    {{ old('status', $transactionUserPackage->status) == 'inactive' ? 'selected' : '' }}>Inactive
+                    {{ old('status', $transactionUserPackage->status) == 'inactive' ? 'selected' : '' }}>Inaktif
                 </option>
             </select>
             @error('status')
@@ -76,7 +76,7 @@
     <div class="mt-6 text-right">
         <button type="submit" id="submitButton"
             class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
-            Confirm Selection
+            Konfirmasi Pilihan
         </button>
     </div>
     </form>

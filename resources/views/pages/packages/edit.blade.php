@@ -4,11 +4,11 @@
 @section('dashboard')
 <div class="p-6">
     <div class="bg-white shadow rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-6">Edit Package</h1>
+        <h1 class="text-2xl font-bold mb-6">Edit Paket</h1>
 
         @if ($errors->any())
             <div class="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded-lg">
-                <strong>Whoops!</strong> Please fix the errors below:
+                <strong>Whoops!</strong> Tolong Perbaiki kesalahan di bawah ini:
                 <ul class="mt-2 list-disc list-inside text-sm">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -25,7 +25,7 @@
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 {{-- Name --}}
                 <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Package Name</label>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nama Paket</label>
                     <input type="text" id="name" name="name" value="{{ old('name', $package->name) }}" required
                         class="bg-gray-50 border @error('name') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     @error('name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
@@ -33,7 +33,7 @@
 
                 {{-- Quota --}}
                 <div>
-                    <label for="quota" class="block mb-2 text-sm font-medium text-gray-900">Quota</label>
+                    <label for="quota" class="block mb-2 text-sm font-medium text-gray-900">Kuota</label>
                     <input type="text" id="quota_display" value="{{ old('quota', $package->quota) ? $package->quota . ' Hari' : '' }}"
                         class="bg-gray-50 border @error('quota') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <input type="hidden" id="quota" name="quota" value="{{ old('quota', $package->quota) }}">
@@ -42,7 +42,7 @@
 
                 {{-- Price --}}
                 <div>
-                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Price</label>
+                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Harga</label>
                     <input type="text" id="price_display" value="{{ old('price', $package->price) ? 'Rp. ' . number_format($package->price, 0, ',', '.') : '' }}"
                         class="bg-gray-50 border @error('price') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <input type="hidden" id="price" name="price" value="{{ old('price', $package->price) }}">
@@ -52,7 +52,7 @@
 
             {{-- Description --}}
             <div class="mb-6">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Deskripsi</label>
                 <textarea id="description" name="description" rows="4"
                     class="bg-gray-50 border @error('description') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">{{ old('description', $package->description) }}</textarea>
                 @error('description') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
@@ -60,8 +60,8 @@
 
             {{-- Actions --}}
             <div class="flex justify-end gap-3">
-                <a href="{{ route('packages.index') }}" class="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium">Cancel</a>
-                <button type="submit" class="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm">Update</button>
+                <a href="{{ route('packages.index') }}" class="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium">Batalkan</a>
+                <button type="submit" class="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm">Perbarui</button>
             </div>
         </form>
     </div>
