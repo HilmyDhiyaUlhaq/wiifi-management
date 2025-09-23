@@ -85,9 +85,13 @@ class TransactionUserClassController extends Controller
         ];
         $data['type'] = 'class';
 
-        $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
+        $transactionUserPackag = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
 
-        return redirect()->route('transactions-class.index')->with('success', 'Transaction added successfully.');
+        if (strtolower($data['paymentMethod']) == 'cash') {
+            return redirect()->route('transactions-class.index')->with('success', 'Transaction deleted successfully.');
+        } else {
+            return redirect()->route('payments.show', ['id' => $transactionUserPackag->id, 'url' => route('transactions-class.index')])->with('success', 'Transaction deleted successfully.');
+        }
     }
 
     public function edit(Request $request, $id)
