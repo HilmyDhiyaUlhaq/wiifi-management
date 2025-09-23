@@ -63,10 +63,13 @@ class TransactionUserClassController extends Controller
     {
         $data = $request->validate([
             'packageId' => 'required|exists:packages,id,deleted_at,NULL',
-            'userId' => 'required|exists:users,id,deleted_at,NULL'
+            'userId' => 'required|exists:users,id,deleted_at,NULL',
+            'paymentMethod' => 'required|string'
         ]);
+        $data['status'] = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
         $package = $this->packageRepository->getPackageById($data['packageId']);
         $user = $this->userRepository->getUserById($data['userId']);
+
         $transactionData = [
             'user_id' => $user->id,
             'package_id' => $package->id,
@@ -74,9 +77,10 @@ class TransactionUserClassController extends Controller
             'user_name' => $user->name,
             'description' => $package->description,
             'price' => $package->price,
-            'status' => 'active',
+            'status' => $data['status'],
+            'payment_method' => $data['paymentMethod'],
             'type' => $package->type,
-            'activation_at' => Carbon::now(),
+            'activation_at' => $data['status'] == 'active' ? Carbon::now() : null,
             'created_by' => Auth::user()?->name
         ];
         $data['type'] = 'class';
@@ -84,6 +88,55 @@ class TransactionUserClassController extends Controller
         $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
 
         return redirect()->route('transactions-class.index')->with('success', 'Transaction added successfully.');
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $request['id'] = $id;
+        $request->validate([
+            'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL'
+        ]);
+
+        return view('pages.transactions-class.edit', [
+            'transactionUserPackage' => $this->transactionUserPackageRepository->getTransactionUserPackageById($id),
+            'packages' => $this->packageRepository->getAllPackages()->where('type', 'package'),
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request['id'] = $id;
+        $data = $request->validate([
+            'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL,status,request',
+            'packageId' => 'required|exists:packages,id,deleted_at,NULL',
+            'userId' => 'required|exists:users,id,deleted_at,NULL',
+            'paymentMethod' => 'required|string'
+        ]);
+        $data['status'] = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
+        $package = $this->packageRepository->getPackageById($data['packageId']);
+        $user = $this->userRepository->getUserById($data['userId']);
+
+        $transactionData = [
+            'user_id' => $data['userId'],
+            'user_name' => $user->name,
+            'package_id' => $package->id,
+            'package_name' => $package->name,
+            'description' => $package->description,
+            'price' => $package->price,
+            'quota' => $package->quota,
+            'status' => $data['status'],
+            'type' => $package->type,
+            'activation_at' => $data['status'] == 'active' ? Carbon::now() : null,
+            'created_by' => Auth::user()?->name,
+            'payment_method' => $data['paymentMethod']
+        ];
+        $this->transactionUserPackageRepository->updateTransactionUserPackageById($id, $transactionData);
+
+        if (strtolower($data['paymentMethod']) == 'cash') {
+            return redirect()->route('transactions-class.index')->with('success', 'Transaction deleted successfully.');
+        } else {
+            return redirect()->route('payments.show', ['id' => $id, 'url' => route('transactions-class.index')])->with('success', 'Transaction deleted successfully.');
+        }
     }
 
     public function destroy(Request $request, $id)

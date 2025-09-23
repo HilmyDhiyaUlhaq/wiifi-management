@@ -65,6 +65,7 @@ class TransactionUserPackageController extends Controller
             'packageId' => 'required|exists:packages,id,deleted_at,NULL',
             'userId' => 'required|exists:users,id,deleted_at,NULL'
         ]);
+        $data['status'] = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
         $package = $this->packageRepository->getPackageById($data['packageId']);
         $user = $this->userRepository->getUserById($data['userId']);
         $transactionData = [
@@ -75,9 +76,9 @@ class TransactionUserPackageController extends Controller
             'description' => $package->description,
             'price' => $package->price,
             'quota' => $package->quota,
-            'status' => 'active',
+            'status' => $data['status'],
             'type' => $package->type,
-            'activation_at' => Carbon::now(),
+            'activation_at' => $data['status'] == 'active' ? Carbon::now() : null,
             'created_by' => Auth::user()?->name
         ];
         $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
@@ -106,8 +107,9 @@ class TransactionUserPackageController extends Controller
             'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL,status,request',
             'packageId' => 'required|exists:packages,id,deleted_at,NULL',
             'userId' => 'required|exists:users,id,deleted_at,NULL',
-            'status' => 'required|string'
+            'paymentMethod' => 'required|string'
         ]);
+        $data['status'] = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
         $package = $this->packageRepository->getPackageById($data['packageId']);
         $user = $this->userRepository->getUserById($data['userId']);
 
@@ -121,15 +123,20 @@ class TransactionUserPackageController extends Controller
             'quota' => $package->quota,
             'status' => $data['status'],
             'type' => $package->type,
-            'activation_at' => Carbon::now(),
-            'created_by' => Auth::user()?->name
+            'activation_at' => $data['status'] == 'active' ? Carbon::now() : null,
+            'created_by' => Auth::user()?->name,
+            'payment_method' => $data['paymentMethod']
         ];
         $this->transactionUserPackageRepository->updateTransactionUserPackageById($id, $transactionData);
 
-        if ($data['status'] == 'active') {
-            $this->applyQuotaService->applyPromo($id);
+        if (strtolower($data['paymentMethod']) == 'cash') {
+            if ($data['status'] == 'active') {
+                $this->applyQuotaService->applyPromo($id);
+            }
+            return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        } else {
+            return redirect()->route('payments.show', ['id' => $id, 'url' => route('transactions.index')])->with('success', 'Transaction deleted successfully.');
         }
-        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
 
     public function destroy(Request $request, $id)

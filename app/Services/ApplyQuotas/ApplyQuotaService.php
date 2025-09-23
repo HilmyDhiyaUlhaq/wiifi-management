@@ -17,15 +17,12 @@ class ApplyQuotaService
         //
     }
 
-    public function applyPromo($transactionUserPackageId, $status = false)
+    public function applyPromo($transactionUserPackageId)
     {
         $transactionUserPackage = $this->transactionUserPackageRepository->getTransactionUserPackageById($transactionUserPackageId);
         $userWifi = $this->userWiFiRepository->getUserWiFiByUserId($transactionUserPackage->user_id);
-        if (!$status) {
-            $status = $transactionUserPackage->status == 'request';
-        }
 
-        if ($userWifi && $transactionUserPackage && $status) {
+        if ($userWifi && $transactionUserPackage) {
             $quota = $userWifi->count_quota;
             $quota = $quota + $transactionUserPackage->quota;
             $this->userWiFiRepository->updateUserWiFiByUserId($transactionUserPackage->user_id, ['count_quota' => $quota, 'status' => 'active']);

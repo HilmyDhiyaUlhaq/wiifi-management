@@ -53,7 +53,8 @@
 
                 <!-- Tambah User -->
                 <a href="{{ route('transactions-class.create') }}"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Transaksi Baru</a>
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Transaksi
+                    Baru</a>
             </form>
         </div>
         {{-- Table Card --}}
@@ -64,6 +65,8 @@
                         <th scope="col" class="px-6 py-3">User</th>
                         <th scope="col" class="px-6 py-3">Nama Kelas</th>
                         <th scope="col" class="px-6 py-3">Harga</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
+                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,43 +84,97 @@
                             <td class="px-6 py-4">
                                 Rp. {{ number_format($transactionUserPackage->price, 0, ',', '.') }}
                             </td>
+                            <td class="px-6 py-4">
+                                @switch($transactionUserPackage->status)
+                                    @case('active')
+                                        <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                                            {{ ucfirst($transactionUserPackage->status) }}
+                                        </span>
+                                    @break
+
+                                    @case('request')
+                                        <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
+                                            {{ ucfirst($transactionUserPackage->status) }}
+                                        </span>
+                                    @break
+
+                                    @case('cancel')
+                                        <span class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">
+                                            {{ ucfirst($transactionUserPackage->status) }}
+                                        </span>
+                                    @break
+                                @endswitch
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <form
+                                    action="{{ route('transactions-class.edit', ['id' => $transactionUserPackage->id]) }}"
+                                    method="GET" class="inline">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $transactionUserPackage->id }}">
+                                    <button type="submit"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                                        Edit
+                                    </button>
+                                </form>
+                                @if ($transactionUserPackage->status != 'active')
+                                    <form
+                                        action="{{ route('transactions-class.destroy', ['id' => $transactionUserPackage->id]) }}"
+                                        method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="id" value="{{ $transactionUserPackage->id }}">
+                                        <button type="submit"
+                                            class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                            onclick="return confirm('Are you sure you want to delete this package?')">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                @else
+                                    <button class="font-medium text-gray-600 dark:text-gray-500 hover:underline"
+                                        onclick="return alert('Cannot delete active package')">
+                                        Hapus
+                                    </button>
+                                @endif
+                            </td>
+
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada kelas yang ditemukan</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada kelas yang ditemukan
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('filterForm');
-        const searchInput = form.querySelector('input[name="search"]');
-        const perPageSelect = form.querySelector('select[name="perPage"]');
-        const startDateInput = form.querySelector('input[name="startDate"]');
-        const endDateInput = form.querySelector('input[name="endDate"]');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('filterForm');
+            const searchInput = form.querySelector('input[name="search"]');
+            const perPageSelect = form.querySelector('select[name="perPage"]');
+            const startDateInput = form.querySelector('input[name="startDate"]');
+            const endDateInput = form.querySelector('input[name="endDate"]');
 
-        let typingTimer;
+            let typingTimer;
 
-        // Auto-submit saat ganti jumlah per halaman
-        perPageSelect.addEventListener('change', function() {
-            form.submit();
-        });
-        startDateInput.addEventListener('change', function() {
-            form.submit();
-        });
-        endDateInput.addEventListener('change', function() {
-            form.submit();
-        });
+            // Auto-submit saat ganti jumlah per halaman
+            perPageSelect.addEventListener('change', function() {
+                form.submit();
+            });
+            startDateInput.addEventListener('change', function() {
+                form.submit();
+            });
+            endDateInput.addEventListener('change', function() {
+                form.submit();
+            });
 
-        // Auto-submit search setelah berhenti mengetik
-        searchInput.addEventListener('keyup', function() {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(() => form.submit(), 500);
+            // Auto-submit search setelah berhenti mengetik
+            searchInput.addEventListener('keyup', function() {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(() => form.submit(), 500);
+            });
         });
-    });
-</script>
+    </script>

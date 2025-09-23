@@ -60,12 +60,17 @@ class UserTransactionController extends Controller
     {
         $data = $request->validate([
             'packageId' => 'required|exists:packages,id,deleted_at,NULL',
-            'userId' => 'required|exists:users,id,deleted_at,NULL'
+            'userId' => 'required|exists:users,id,deleted_at,NULL',
+            'paymentMethod' => 'required|string'
         ]);
         $package = $this->packageRepository->getPackageById($data['packageId']);
         $user = $this->userRepository->getUserById($data['userId']);
 
-        $status = Auth::user()?->role == 'admin' ? 'active' : 'request';
+        if (Auth::user()?->role == 'admin') {
+            $status = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
+        } else {
+            $status = 'request';
+        }
 
         $transactionData = [
             'user_id' => $user->id,
@@ -79,14 +84,20 @@ class UserTransactionController extends Controller
             'created_by' => Auth::user()?->name,
             'status' => $status
         ];
-        if ($status == 'active') {
-            $transactionData['activation_at'] = Carbon::now();
+
+        if (strtolower($data['paymentMethod']) == 'cash') {
+            if ($status == 'active') {
+                $transactionData['activation_at'] = Carbon::now();
+            }
+            $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
+            if ($status == 'active') {
+                $this->applyQuotaService->applyPromo($transactionData->id);
+            }
+            return redirect()->route('users.transactions.index', ['userId' => $data['userId']])->with('success', 'Transaction added successfully.');
+        } else {
+            $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
+            return redirect()->route('payments.show', ['id' => $transactionData->id, 'url' => route('users.transactions.index', ['userId' => $data['userId']])])->with('success', 'Transaction added successfully.');
         }
-        $transactionData = $this->transactionUserPackageRepository->createTransactionUserPackage($transactionData);
-        if ($status == 'active') {
-            $this->applyQuotaService->applyPromo($transactionData->id, true);
-        }
-        return redirect()->route('users.transactions.index', ['userId' => $data['userId']])->with('success', 'Transaction added successfully.');
     }
 
     public function edit(Request $request, $userId, $id)
@@ -113,15 +124,20 @@ class UserTransactionController extends Controller
             'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL,status,request',
             'packageId' => 'required|exists:packages,id,deleted_at,NULL',
             'userId' => 'required|exists:users,id,deleted_at,NULL',
-            'status' => 'nullable|string'
+            'status' => 'nullable|string',
+            'paymentMethod' => 'required|string'
         ]);
+
+        if (Auth::user()?->role == 'admin') {
+            $data['status'] = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
+        } else {
+            $data['status'] = 'request';
+        }
 
         $package = $this->packageRepository->getPackageById($data['packageId']);
         $user = $this->userRepository->getUserById($data['userId']);
 
-        if (Auth::user()->role != 'admin') {
-            $data['status'] = 'request';
-        }
+
 
         $transactionData = [
             'user_id' => $data['userId'],
@@ -131,16 +147,22 @@ class UserTransactionController extends Controller
             'description' => $package->description,
             'price' => $package->price,
             'quota' => $package->quota,
-            'status' => $data['status']
+            'status' => $data['status'],
+            'payment_method' => $data['paymentMethod'],
         ];
         if ($data['status'] == 'active') {
             $transactionData['activation_at'] = Carbon::now();
         }
         $this->transactionUserPackageRepository->updateTransactionUserPackageById($id, $transactionData);
-        if ($transactionData['status'] == 'active') {
-            $this->applyQuotaService->applyPromo($id);
+        if (strtolower($data['paymentMethod']) == 'cash') {
+
+            if ($transactionData['status'] == 'active') {
+                $this->applyQuotaService->applyPromo($id);
+            }
+            return redirect()->route('users.transactions.index', ['userId' => $data['userId']])->with('success', 'Transaction updated successfully.');
+        } else {
+            return redirect()->route('payments.show', ['id' => $id, 'url' => route('users.transactions.index', ['userId' => $data['userId']])])->with('success', 'Transaction updated successfully.');
         }
-        return redirect()->route('users.transactions.index', ['userId' => $data['userId']])->with('success', 'Transaction updated successfully.');
     }
 
     public function destroy(Request $request, $id)

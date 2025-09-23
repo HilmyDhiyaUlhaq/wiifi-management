@@ -25,24 +25,6 @@
                     class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
             </div>
 
-
-            <!-- Select Status -->
-            <div class="my-4">
-                <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                <select id="status" name="status" required
-                    class="bg-gray-50 border @error('status') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">-- Pilih Status --</option>
-                    <option value="active"
-                        {{ old('status', $transactionUserPackage->status) == 'active' ? 'selected' : '' }}>Aktif</option>
-                    <option value="request"
-                        {{ old('status', $transactionUserPackage->status) == 'request' ? 'selected' : '' }}>request
-                    </option>
-                </select>
-                @error('status')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
             <!-- Grid Packages -->
             <div id="packagesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach ($packages as $package)
@@ -53,9 +35,8 @@
                         class="package-card border rounded-lg shadow hover:shadow-lg cursor-pointer transition p-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-300
                                {{ $isActive ? 'border-blue-500 ring-2 ring-blue-300' : '' }}"
                         data-id="{{ $package->id }}" data-name="{{ strtolower($package->name) }}"
-                        data-description="{{ strtolower($package->description ?? '') }}"
-                        data-price="{{ $package->price }}" data-quota="{{ $package->quota }}"
-                        aria-pressed="{{ $isActive ? 'true' : 'false' }}">
+                        data-description="{{ strtolower($package->description ?? '') }}" data-price="{{ $package->price }}"
+                        data-quota="{{ $package->quota }}" aria-pressed="{{ $isActive ? 'true' : 'false' }}">
                         <h3 class="text-lg font-semibold mb-2">{{ $package->name }}</h3>
                         <p class="text-gray-600 mb-2 text-sm">{{ $package->description ?? 'No description' }}</p>
                         <p class="text-blue-600 font-bold text-lg">Rp {{ number_format($package->price, 0, ',', '.') }}</p>
@@ -67,6 +48,21 @@
             <!-- No results -->
             <div id="noResults" class="hidden mt-4 text-center text-gray-600">
                 Tidak ada paket yang cocok dengan kata kunci.
+            </div>
+
+            <!-- Select Payment -->
+            <div class="my-4">
+                <label for="paymentMethod" class="block mb-2 text-sm font-medium text-gray-900">Metode Pembayaran</label>
+                <select id="paymentMethod" name="paymentMethod" required
+                    class="bg-gray-50 border @error('paymentMethod') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">-- Pilih Metode Pembayaran --</option>
+                    <option value="Online" {{ old('paymentMethod') == 'Online' ? 'selected' : '' }}>Online</option>
+                    <option value="Cash" {{ old('paymentMethod') == 'Cash' ? 'selected' : '' }}>Langsung
+                    </option>
+                </select>
+                @error('paymentMethod')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Submit -->

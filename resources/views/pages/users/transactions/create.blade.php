@@ -30,6 +30,22 @@
                     </div>
                 @endforeach
             </div>
+
+            <!-- Select Payment -->
+            <div class="my-4">
+                <label for="paymentMethod" class="block mb-2 text-sm font-medium text-gray-900">Metode Pembayaran</label>
+                <select id="paymentMethod" name="paymentMethod" required
+                    class="bg-gray-50 border @error('paymentMethod') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">-- Pilih Metode Pembayaran --</option>
+                    <option value="Online" {{ old('paymentMethod') == 'Online' ? 'selected' : '' }}>Online</option>
+                    <option value="Cash" {{ old('paymentMethod') == 'Cash' ? 'selected' : '' }}>Langsung
+                    </option>
+                </select>
+                @error('paymentMethod')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Submit -->
             <div class="mt-6 text-right">
                 <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">

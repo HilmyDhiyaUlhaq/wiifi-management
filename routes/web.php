@@ -4,6 +4,8 @@ use App\Http\Controllers\Auths\AuthController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\DashboarController;
 use App\Http\Controllers\Packages\PackageController;
+use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\payments\MidtransController;
 use App\Http\Controllers\Transactions\TransactionUserClassController;
 use App\Http\Controllers\Transactions\TransactionUserPackageController;
 use App\Http\Controllers\Users\UserController;
@@ -83,6 +85,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [TransactionUserClassController::class, 'index'])->name('transactions-class.index');
         Route::get('/create', [TransactionUserClassController::class, 'create'])->name('transactions-class.create');
         Route::post('/create', [TransactionUserClassController::class, 'store'])->name('transactions-class.store');
+        Route::get('/edit/{id}', [TransactionUserClassController::class, 'edit'])->name('transactions-class.edit');
+        Route::patch('/edit/{id}', [TransactionUserClassController::class, 'update'])->name('transactions-class.update');
         Route::delete('/delete/{id}', [TransactionUserClassController::class, 'destroy'])->name('transactions-class.destroy');
         Route::get('/export', [TransactionUserClassController::class, 'export'])->name('transactions-class.export');
     });
@@ -96,4 +100,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/{id}', [ClassController::class, 'destroy'])->name('class.destroy');
         Route::get('/export', [ClassController::class, 'export'])->name('class.export');
     });
+
+    Route::prefix('payments')->group(function () {
+        Route::get('{id}', [PaymentController::class, 'show'])->name('payments.show');
+    });
 });
+
+
+

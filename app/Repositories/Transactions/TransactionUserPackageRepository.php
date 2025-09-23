@@ -73,4 +73,8 @@ class TransactionUserPackageRepository
     {
         return TransactionUserPackage::with(['user'])->find($id);
     }
+    public function getTransactionUserPackageByOrderId($orderId)
+    {
+        return TransactionUserPackage::with(['user'])->where('order_id', $orderId)->first();
+    }
 }
