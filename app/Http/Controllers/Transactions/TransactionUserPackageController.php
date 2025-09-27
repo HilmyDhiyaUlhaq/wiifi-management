@@ -63,7 +63,8 @@ class TransactionUserPackageController extends Controller
     {
         $data = $request->validate([
             'packageId' => 'required|exists:packages,id,deleted_at,NULL',
-            'userId' => 'required|exists:users,id,deleted_at,NULL'
+            'userId' => 'required|exists:users,id,deleted_at,NULL',
+            'paymentMethod' => 'required|string'
         ]);
         $data['status'] = strtolower($data['paymentMethod']) == 'cash' ? 'active' : 'request';
         $package = $this->packageRepository->getPackageById($data['packageId']);
