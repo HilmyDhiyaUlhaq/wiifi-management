@@ -18,4 +18,9 @@ class Package extends Model
     {
         return Uuid::uuid4();
     }
+
+    const KIND_GOLD = 'GOLD';
+    const KIND_SILVER = 'SILVER';
+    const KIND_BRONZE = 'BRONZE';
+    const AVAILABLE_KINDS = [self::KIND_GOLD, self::KIND_SILVER, self::KIND_BRONZE];
 }

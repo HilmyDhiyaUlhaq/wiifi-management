@@ -39,7 +39,7 @@ class UserWiFiAccountRepository
 
     public function getUserWiFIAccountById($id)
     {
-        return UserWiFiAccount::find($id);
+        return UserWiFiAccount::with(['userWifi'])->find($id);
     }
 
     public function getUserWiFiAccountIps()

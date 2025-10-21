@@ -25,7 +25,7 @@ class ConnectioService
         $payload = [
             'address' => $nextIp,
             'mac-address' => $userWifiAccount->mac,
-            'comment' => $userWifiAccount->id,
+            'comment' => $userWifiAccount->userWifi->kind,
         ];
 
         $base = rtrim(env('ROUTER_REST_DOMAIN'), '/');
@@ -100,6 +100,7 @@ class ConnectioService
 
         $payload = [
             'disabled' => !$status,
+            'comment' => $userWifiAccount?->userWifi?->kind
         ];
 
         try {

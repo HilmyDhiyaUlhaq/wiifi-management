@@ -79,6 +79,7 @@ class TransactionUserPackageController extends Controller
             'quota' => $package->quota,
             'status' => $data['status'],
             'type' => $package->type,
+            'kind' => $package->kind,
             'activation_at' => $data['status'] == 'active' ? Carbon::now() : null,
             'created_by' => Auth::user()?->name
         ];
@@ -126,6 +127,7 @@ class TransactionUserPackageController extends Controller
             'type' => $package->type,
             'activation_at' => $data['status'] == 'active' ? Carbon::now() : null,
             'created_by' => Auth::user()?->name,
+            'kind' => $package->kind,
             'payment_method' => $data['paymentMethod']
         ];
         $this->transactionUserPackageRepository->updateTransactionUserPackageById($id, $transactionData);

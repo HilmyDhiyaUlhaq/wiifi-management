@@ -25,7 +25,7 @@ class ApplyQuotaService
         if ($userWifi && $transactionUserPackage) {
             $quota = $userWifi->count_quota;
             $quota = $quota + $transactionUserPackage->quota;
-            $this->userWiFiRepository->updateUserWiFiByUserId($transactionUserPackage->user_id, ['count_quota' => $quota, 'status' => 'active']);
+            $this->userWiFiRepository->updateUserWiFiByUserId($transactionUserPackage->user_id, ['count_quota' => $quota, 'status' => 'active', 'kind' => $transactionUserPackage->kind]);
 
             $userWifiAccounts = $userWifi->userWifiAccounts;
             if ($userWifiAccounts->isNotEmpty()) {

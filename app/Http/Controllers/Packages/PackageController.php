@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Packages;
 use App\Exports\PackageExport;
 use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
+use App\Models\Package;
 use App\Repositories\Packges\PackageRepository;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -35,7 +36,9 @@ class PackageController extends Controller
 
     public function create()
     {
-        return view('pages.packages.create');
+        return view('pages.packages.create', [
+            'kinds' => Package::AVAILABLE_KINDS
+        ]);
     }
 
     public function store(Request $request)
@@ -43,7 +46,7 @@ class PackageController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
-            'quota' => 'required|integer|min:1',
+            'kind' => 'required|string',
             'description' => 'nullable|string|max:1000',
         ]);
 
@@ -56,7 +59,8 @@ class PackageController extends Controller
     public function edit($id)
     {
         return view('pages.packages.edit', [
-            'package' => $this->packageRepository->getPackageById($id)
+            'package' => $this->packageRepository->getPackageById($id),
+            'kinds' => Package::AVAILABLE_KINDS
         ]);
     }
 
@@ -67,7 +71,7 @@ class PackageController extends Controller
             'id' => 'required|exists:packages,id,deleted_at,NULL',
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
-            'quota' => 'required|integer|min:1',
+            'kind' => 'required|string',
             'description' => 'nullable|string|max:1000',
         ]);
 

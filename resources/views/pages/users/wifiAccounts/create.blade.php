@@ -39,9 +39,9 @@
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <!-- Name -->
                         <div>
-                            <label for="name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Perangkat
-                                </label>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                                Perangkat
+                            </label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required
                                 class="bg-gray-50 border @error('name') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @error('name')

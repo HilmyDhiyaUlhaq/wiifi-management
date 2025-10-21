@@ -17,4 +17,9 @@ class UserWiFiAccount extends Model
     {
         return Uuid::uuid4();
     }
+
+    public function userWifi()
+    {
+        return $this->belongsTo(UserWiFi::class, 'user_wifi_id', 'id');
+    }
 }

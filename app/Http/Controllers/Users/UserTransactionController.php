@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Exports\TransactionUserPackageExport;
 use App\Http\Controllers\Controller;
 use App\Repositories\Packges\PackageRepository;
 use App\Repositories\Transactions\TransactionUserPackageRepository;
@@ -11,6 +12,7 @@ use App\Services\ApplyQuotas\ApplyQuotaService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserTransactionController extends Controller
 {
@@ -80,6 +82,7 @@ class UserTransactionController extends Controller
             'description' => $package->description,
             'price' => $package->price,
             'quota' => $package->quota,
+            'kind' => $package->kind,
             'type' => $package->type,
             'created_by' => Auth::user()?->name,
             'status' => $status
@@ -147,6 +150,7 @@ class UserTransactionController extends Controller
             'description' => $package->description,
             'price' => $package->price,
             'quota' => $package->quota,
+            'kind' => $package->kind,
             'status' => $data['status'],
             'payment_method' => $data['paymentMethod'],
         ];
@@ -175,5 +179,13 @@ class UserTransactionController extends Controller
 
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
+
+    public function export($id)
+    {
+        $data['type'] = 'package';
+        $data['userId'] = $id;
+        return Excel::download(new TransactionUserPackageExport($data), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
 
 }

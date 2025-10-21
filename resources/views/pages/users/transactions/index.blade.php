@@ -42,14 +42,16 @@
                     class="rounded-lg border border-gray-300 text-sm p-2 w-full max-w-xs ml-auto">
 
                 <!-- Tombol Export -->
-                <button type="submit" name="action" value="export"
+                <a type="submit" name="action" value="export"
+                    href="{{ route('users.transactions.export', ['userId' => $user->id]) }}"
                     class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
                     Export
-                </button>
+                </a>
 
                 <!-- Tambah User -->
                 <a href="{{ route('users.transactions.create', ['userId' => $user->id]) }}"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Transaksi Baru</a>
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">+ Tambahkan Transaksi
+                    Baru</a>
             </form>
         </div>
         {{-- Table Card --}}
@@ -133,7 +135,8 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada paket yang ditemukan</td>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada paket yang ditemukan
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>

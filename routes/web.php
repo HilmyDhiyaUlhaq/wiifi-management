@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [UserTransactionController::class, 'edit'])->name('users.transactions.edit');
             Route::patch('/edit/{id}', [UserTransactionController::class, 'update'])->name('users.transactions.update');
             Route::delete('/delete/{id}', [UserTransactionController::class, 'destroy'])->name('users.transactions.destroy');
+            Route::get('/export', [UserTransactionController::class, 'export'])->name('users.transactions.export');
         });
     });
 
