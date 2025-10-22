@@ -37,10 +37,13 @@
                     {{-- kind --}}
                     <div>
                         <label for="kind" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
-                        <select name="userId" id="userId" placeholder="Search user..." autocomplete="off">
+                        <select name="kind" id="kind"
+                            class="g-gray-50 border @error('price') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            autocomplete="off">
                             <option value="">Pilih Jenis ...</option>
                             @foreach ($kinds as $kind)
-                                <option {{ old('kind') == $kind ? 'selected' : '' }} value="{{ $kind }}">
+                                <option {{ old('kind', $package->kind) == $kind ? 'selected' : '' }}
+                                    value="{{ $kind }}">
                                     {{ $kind }}</option>
                             @endforeach
                         </select>
