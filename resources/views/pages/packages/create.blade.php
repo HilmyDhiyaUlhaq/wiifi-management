@@ -31,6 +31,17 @@
                         @enderror
                     </div>
 
+                    {{-- Quota --}}
+                    <div>
+                        <label for="quota" class="block mb-2 text-sm font-medium text-gray-900">Kuota</label>
+                        <input type="text" id="quota_display" value="{{ old('quota') ? $package->quota . ' Hari' : '' }}"
+                            class="bg-gray-50 border @error('quota') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <input type="hidden" id="quota" name="quota" value="{{ old('quota') }}">
+                        @error('quota')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- kind --}}
                     <div>
                         <label for="kind" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
