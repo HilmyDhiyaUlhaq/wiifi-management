@@ -47,6 +47,7 @@ class PackageController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
             'kind' => 'required|string',
+            'quota' => 'required|integer|min:0',
             'description' => 'nullable|string|max:1000',
         ]);
 
@@ -72,6 +73,7 @@ class PackageController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
             'kind' => 'required|string',
+            'quota' => 'required|integer|min:0',
             'description' => 'nullable|string|max:1000',
         ]);
 
