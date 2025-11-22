@@ -8,6 +8,7 @@ use App\Repositories\Users\UserRepository;
 use App\Repositories\Users\UserWiFiRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -40,7 +41,7 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => ['required', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')],
             'role' => 'required|string|in:admin,user',
             'password' => 'required|string',
             'password_confirmation' => 'required|string|same:password',

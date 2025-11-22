@@ -25,7 +25,7 @@ class UserRepository
     }
     public function createUser($data)
     {
-        return User::create($data);
+        return User::restoreOrCreate(['email' => $data['email']], $data);
     }
     public function updateuserById($id, $data)
     {
