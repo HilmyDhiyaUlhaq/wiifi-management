@@ -29,7 +29,7 @@ class UserRepository
         if ($user) {
             $data['deleted_at'] = null;
             User::withTrashed()->find($user->id)->update($data);
-            return User::fidd($user->id);
+            return User::find($user->id);
         } else {
             return User::create($data);
         }
