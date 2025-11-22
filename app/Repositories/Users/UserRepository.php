@@ -25,7 +25,14 @@ class UserRepository
     }
     public function createUser($data)
     {
-        return User::restoreOrCreate(['email' => $data['email']], $data);
+        $user = User::where('email', $data['email'])->withTrashed()->first();
+        if ($user) {
+            $data['deleted_at'] = null;
+            User::withTrashed()->find($user->id)->update($data);
+            return User::fidd($user->id);
+        } else {
+            return User::create($data);
+        }
     }
     public function updateuserById($id, $data)
     {
