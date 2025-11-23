@@ -169,13 +169,13 @@ class UserTransactionController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
         $request->validate([
-            'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL,status,request'
+            'id' => 'required|exists:transactions_users_packages,id,deleted_at,NULL'
         ]);
 
-        $this->transactionUserPackageRepository->deleteTransactionUserPackageById($id);
+        $this->transactionUserPackageRepository->deleteTransactionUserPackageById($request['id']);
 
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
