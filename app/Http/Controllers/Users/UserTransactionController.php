@@ -82,7 +82,6 @@ class UserTransactionController extends Controller
             'description' => $package->description,
             'price' => $package->price,
             'quota' => $package->quota,
-            'kind' => $package->kind,
             'type' => $package->type,
             'created_by' => Auth::user()?->name,
             'status' => $status
@@ -186,6 +185,4 @@ class UserTransactionController extends Controller
         $data['userId'] = $id;
         return Excel::download(new TransactionUserPackageExport($data), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
-
-
 }
