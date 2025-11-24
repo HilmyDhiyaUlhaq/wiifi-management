@@ -10,6 +10,7 @@ use App\Services\Mikrotiks\ConnectioService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserWifiAccountController extends Controller
 {
@@ -71,6 +72,7 @@ class UserWifiAccountController extends Controller
 
             return redirect()->route('users.wifis.accounts.index', ['userId' => $data['userId']]);
         } catch (Exception $e) {
+            Log::error($e);
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
         }

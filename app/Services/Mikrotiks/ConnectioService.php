@@ -2,6 +2,7 @@
 namespace App\Services\Mikrotiks;
 
 use App\Repositories\Users\UserWiFiAccountRepository;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -41,7 +42,7 @@ class ConnectioService
             $response = $response->json();
             $this->userWiFiAccountRepository->updateUserWiFIAccountById($userWifiAccountId, ['ip' => $response['address'], 'leases_id' => $response['.id']]);
             return $response;
-        } catch (\Throwable $e) {
+        } catch (Exception $e) {
             Log::error('Failed to create DHCP static lease', [
                 'url' => $url,
                 'payload' => $payload,
