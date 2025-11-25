@@ -40,7 +40,11 @@ class ConnectioService
                 ->put($url, $payload)
                 ->throw();
             $response = $response->json();
-            $this->userWiFiAccountRepository->updateUserWiFIAccountById($userWifiAccountId, ['ip' => $response['address'], 'leases_id' => $response['.id'], 'status' => 'SYNC']);
+            $this->userWiFiAccountRepository->updateUserWiFIAccountById($userWifiAccountId, [
+                'ip' => $response['address'],
+                'leases_id' => $response['.id'],
+                'status' => 'SYNC'
+            ]);
             return $response;
         } catch (Exception $e) {
             Log::error('Failed to create DHCP static lease', [
@@ -130,7 +134,6 @@ class ConnectioService
     public function getAvalibleIp()
     {
         $baseIps = explode('/', env('ROUTER_IP_ADDRESS_NETWORK'));
-
         $usedIps = $this->userWiFiAccountRepository->getUserWiFiAccountIps();
         if (count($baseIps) > 0) {
             $defaultGateway = $baseIps[0];

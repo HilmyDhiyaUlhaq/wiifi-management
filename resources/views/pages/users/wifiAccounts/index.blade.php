@@ -79,7 +79,7 @@
                                 {{ $userWifiAccount->mac }}
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <form
+                                <form class="{{ $userWifiAccount->status == 'SYNC' ? 'hidden' : 'inline' }}"
                                     action="{{ route('users.wifis.accounts.sync', ['userId' => $user->id, 'id' => $userWifiAccount->id]) }}"
                                     method="POST" class="inline">
                                     @csrf
@@ -91,8 +91,6 @@
                                         Sync Data
                                     </button>
                                 </form>
-                            </td>
-                            <td class="px-6 py-4 text-right">
                                 <form
                                     action="{{ route('users.wifis.accounts.destroy', ['userId' => $user->id, 'id' => $userWifiAccount->id]) }}"
                                     method="POST" class="inline">
