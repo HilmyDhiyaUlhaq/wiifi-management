@@ -36,7 +36,8 @@ class SyncLeaseCommand extends Command
                 try {
                     $connectionService->setLeasesDhcp($userWiFiAccount->id);
                 } catch (Exception $e) {
-                    Log::error('Error syncing lease for user WiFi account ' . $userWiFiAccount->id . ': ' . $e->getMessage());
+                    Log::error($e);
+                    Log::error('Error syncing lease for user WiFi account ' . $userWiFiAccount->id);
                 }
             });
         });
