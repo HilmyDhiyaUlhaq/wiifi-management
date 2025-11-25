@@ -80,6 +80,20 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <form
+                                    action="{{ route('users.wifis.accounts.sync', ['userId' => $user->id, 'id' => $userWifiAccount->id]) }}"
+                                    method="POST" class="inline">
+                                    @csrf
+                                    @method('POST')
+                                    <input type="hidden" name="id" value="{{ $userWifiAccount->id }}">
+                                    <button type="submit"
+                                        class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
+                                        onclick="return confirm('Are you sure you want to sync this account?')">
+                                        Sync Data
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <form
                                     action="{{ route('users.wifis.accounts.destroy', ['userId' => $user->id, 'id' => $userWifiAccount->id]) }}"
                                     method="POST" class="inline">
                                     @csrf
@@ -95,7 +109,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada paket yang ditemukan</td>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada paket yang ditemukan
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

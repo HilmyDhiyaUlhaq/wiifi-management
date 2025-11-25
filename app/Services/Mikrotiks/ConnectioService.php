@@ -40,7 +40,7 @@ class ConnectioService
                 ->put($url, $payload)
                 ->throw();
             $response = $response->json();
-            $this->userWiFiAccountRepository->updateUserWiFIAccountById($userWifiAccountId, ['ip' => $response['address'], 'leases_id' => $response['.id']]);
+            $this->userWiFiAccountRepository->updateUserWiFIAccountById($userWifiAccountId, ['ip' => $response['address'], 'leases_id' => $response['.id'], 'status' => 'SYNC']);
             return $response;
         } catch (Exception $e) {
             Log::error('Failed to create DHCP static lease', [
@@ -76,7 +76,7 @@ class ConnectioService
 
             $response = $response->json();
         } catch (\Throwable $e) {
-            Log::error('Failed to create DHCP static lease', [
+            Log::error('Failed to delete DHCP static lease', [
                 'url' => $url,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),

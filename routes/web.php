@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [UserWifiAccountController::class, 'create'])->name('users.wifis.accounts.create');
             Route::post('/create', [UserWifiAccountController::class, 'store'])->name('users.wifis.accounts.store');
             Route::delete('/delete/{id}', [UserWifiAccountController::class, 'destroy'])->name('users.wifis.accounts.destroy');
+            Route::post('/sync/{id}', [UserWifiAccountController::class, 'sync'])->name('users.wifis.accounts.sync');
         });
 
         Route::prefix('{userId}/transaction')->group(function () {

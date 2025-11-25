@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SyncLeasesDhcpJob;
 use App\Repositories\Users\UserRepository;
 use App\Repositories\Users\UserWiFiAccountRepository;
 use App\Repositories\Users\UserWiFiRepository;
@@ -67,7 +68,8 @@ class UserWifiAccountController extends Controller
                 'mac' => $data['mac'],
                 'name' => $data['name']
             ]);
-            $this->connectioService->setLeasesDhcp($userWiFiAccount->id);
+
+            SyncLeasesDhcpJob::dispatch($userWiFiAccount->id);
             DB::commit();
 
             return redirect()->route('users.wifis.accounts.index', ['userId' => $data['userId']]);
@@ -88,5 +90,21 @@ class UserWifiAccountController extends Controller
         $this->connectioService->deleteLeasesDhcp($id);
         $this->userWiFiAccountRepository->deleteUserWiFiAccountById($id);
         return redirect()->route('users.wifis.accounts.index', ['userId' => $userId]);
+    }
+
+    public function syncLeases(Request $request, $userId, $id)
+    {
+        $request['id'] = $id;
+        $request->validate([
+            'id' => 'required|exists:users_wifis_accounts,id,deleted_at,NULL,status,NOT-SYNC',
+        ]);
+
+        try {
+            $this->connectioService->setLeasesDhcp($id);
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect()->route('users.wifis.accounts.index', ['userId' => $userId])->with('error', 'Sync data gagal, silakan coba lagi nanti');
+        }
+        return redirect()->route('users.wifis.accounts.index', ['userId' => $userId])->with('success', 'Lease synchronizado correctamente');
     }
 }
