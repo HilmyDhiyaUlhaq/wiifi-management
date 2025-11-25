@@ -92,7 +92,7 @@ class UserWifiAccountController extends Controller
         return redirect()->route('users.wifis.accounts.index', ['userId' => $userId]);
     }
 
-    public function syncLeases(Request $request, $userId, $id)
+    public function sync(Request $request, $userId, $id)
     {
         $request['id'] = $id;
         $request->validate([
