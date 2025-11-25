@@ -32,7 +32,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // User
 Route::middleware('auth')->group(function () {
-    Route::get('/', DashboarController::class)->name('dashboard');
+    Route::get('/', DashboarController::class)->name('dashboard')->middleware(\App\Http\Middleware\AdminOnly::class);
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index');
         Route::get('/create', [UserController::class, 'create'])->name('users.create');
