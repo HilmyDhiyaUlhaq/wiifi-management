@@ -27,10 +27,10 @@ class DashboarController extends Controller
         $totalClassTransactions = TransactionUserPackage::where('type', 'class')->sum('price') ?? 0;
 
         // Hitung total transaksi (jumlah record)
-        $totalTransactions = TransactionUserPackage::count();
+        $totalTransactions = TransactionUserPackage::leftJoin('users', 'transactions_users_packages.user_id', '=', 'users.id')->where('users.deleted_at', null)->count();
 
         // Hitung total revenue (semua transaksi)
-        $totalRevenue = TransactionUserPackage::sum('price') ?? 0;
+        $totalRevenue = TransactionUserPackage::leftJoin('users', 'transactions_users_packages.user_id', '=', 'users.id')->where('users.deleted_at', null)->sum('price') ?? 0;
 
         return view('pages.dashboards.index', [
             'totalUsers' => $totalUsers,
