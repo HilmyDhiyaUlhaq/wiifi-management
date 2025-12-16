@@ -41,7 +41,7 @@
                 </div>
 
                 <!-- Search Box -->
-                <input type="text" name="search" placeholder="Search users..." value="{{ $data['search'] ?? '' }}"
+                <input type="text" name="search" placeholder="Cari nama user atau kelas..." value="{{ $data['search'] ?? '' }}"
                     class="rounded-lg border border-gray-300 text-sm p-2 w-full max-w-xs ml-auto">
 
                 <!-- Tombol Export -->
